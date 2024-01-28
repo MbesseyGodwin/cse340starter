@@ -1,3 +1,5 @@
+// utilities/index.js
+
 const invModel = require("../models/inventory-model")
 const Util = {}
 
@@ -56,6 +58,44 @@ Util.buildClassificationGrid = async function(data){
   }
   return grid
 }
+
+
+// Custom function to wrap vehicle information in HTML
+Util.wrapInHTML = function (vehicleData) {
+  const {
+    inv_make,
+    inv_model,
+    inv_year,
+    inv_price,
+    inv_miles,
+    inv_image,
+  } = vehicleData;
+
+  const formattedPrice = new Intl.NumberFormat('en-US', {
+    style: 'currency',
+    currency: 'USD',
+  }).format(inv_price);
+
+  const formattedMileage = new Intl.NumberFormat().format(inv_miles);
+
+  // HTML structure
+  const html = `
+    <div class="vehicle-details">
+      <h1>${inv_make} ${inv_model}</h1>
+      <img src="${inv_image}" alt="${inv_make} ${inv_model} Image" />
+
+      <div class="details">
+        <p><strong>Year:</strong> ${inv_year}</p>
+        <p><strong>Price:</strong> ${formattedPrice}</p>
+        <p><strong>Mileage:</strong> ${formattedMileage}</p>
+      </div>
+    </div>
+  `;
+
+  return html;
+};
+
+
 
 /* ****************************************
  * Middleware For Handling Errors
